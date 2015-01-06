@@ -1,0 +1,24 @@
+doctype html
+html(ng-app='xfblog')
+    head
+        title= title
+
+        link(rel='stylesheet', href='/thirdparty/bootstrap/dist/css/bootstrap.css')
+
+        link(rel='stylesheet', href='/stylesheets/style.css')
+
+        script(src='/thirdparty/jquery/dist/jquery.js')
+        script(src='/thirdparty/bootstrap/dist/js/bootstrap.js')
+        script(src='/thirdparty/angular/angular.js')
+        script(src='/thirdparty/angular-route/angular-route.js')
+        script(src='/thirdparty/angular-resource/angular-resource.js')
+
+
+        script(src='/javascripts/xfblog.js')
+        script(src='/javascripts/services/Post.js')
+        script(src='/javascripts/services/Utils.js')
+
+        script(src='/javascripts/admin/controllers/AdminPostsController.js')
+
+    body
+        block content

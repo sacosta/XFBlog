@@ -1,0 +1,4 @@
+.idea
+backend/node_modules/
+frontend/public/thirdparty/*
+frontend/public/stylesheets/*.css
