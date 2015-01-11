@@ -7,37 +7,43 @@ var _ = require('lodash');
 var xfFunctional = require('./commons/functional');
 
 var configValues = {
-    database: {
-        url: 'databases.development.com',
-        port: 1008,
-        user: 'user',
-        password: 'password'
+    persistence: {
+        defaultModule: 'mongo', //must match with some key of modules
+        modules: {
+            mongo: {
+                url: 'databases.development.com',
+                port: '27017',
+                options: {autoreconnect: false, safe: true}
+            }
+        }
     },
 
-    frontend : {
-        viewsDirectory : '../frontend/views',
-        staticFiles : '../frontend/public/'
+    frontend: {
+        viewsDirectory: '../frontend/views',
+        staticFiles: '../frontend/public/'
     }
 };
 
 
-
 var getProperty = function (property, defaultValue) {
     var args,
-        result;
+        result,
+        initialValues;
 
     if (!xfFunctional.existy(property)) return null;
 
     args = property.split('.');
+    initialValues = configValues[_.first(args)]; //We need at least the parent property as root value, to pass as initial argument to reduce function.
+    args = _.rest(args);
 
     result = _.reduce(args, function (currentConfig, arg) {
         if (!xfFunctional.existy(currentConfig)) return undefined;
 
-        currentConfig = configValues[arg];
+        currentConfig = currentConfig[arg];
         return currentConfig;
-    }, {});
+    }, initialValues);
 
     return result || defaultValue;
 };
 
-module.exports = getProperty;
+exports.getProperty = getProperty;

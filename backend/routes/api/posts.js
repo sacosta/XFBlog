@@ -6,7 +6,7 @@ var _ = require('lodash');
 var express = require('express');
 var router = express.Router();
 
-var PostController = require('../../controllers/PostController.js');
+var PostController = require('../../controllers/ArticlesController.js');
 
 var processControllerResult = function (res, response) {
     if (result.error) {
@@ -20,7 +20,7 @@ var processControllerResult = function (res, response) {
 
 router.get('/', function (req, res) {
     var params = _.extends({limit: 25, offset: 0}, req.params);
-    PostController.list(params, processControllerResult.bind(null, res));
+    ArticlesController.list(params, processControllerResult.bind(null, res));
 });
 
 router.get('/:id', function (req, res) {

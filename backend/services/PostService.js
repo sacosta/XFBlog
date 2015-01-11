@@ -8,6 +8,7 @@ var server = new mongo.Server(SERVER_URL, SERVER_PORT, {auto_reconnect: true});
 
 var db = new mongo.Db(BLOG_DB_NAME, server);
 
+/*
 db.open(function (err, db) {
     if (!err) {
         console.log('conneted!');
@@ -15,10 +16,7 @@ db.open(function (err, db) {
             if (err) {
                 console.log('Creating collection');
                 db.createCollection('posts', {strict: true}, function (err, collection) {
-
                 }
-            }
             )
         }
-    }
-    )
+    })*/

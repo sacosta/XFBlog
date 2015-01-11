@@ -5,13 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
 
-var getProperty = require('./config');
+var config = require('./config');
 
 var app = express();
 
+var PersistenceLayer = require('./services/PersistenceLayer');
 
 var setViewEngine = function (expressApp) {
     // view engine setup
@@ -33,8 +32,13 @@ var addMiddlewares = function (expressApp) {
 };
 
 var addRoutes = function (expressApp) {
+    var routes = require('./routes/index');
+    var users = require('./routes/users');
+    var articles = require('./routes/api/articles');
+
     expressApp.use('/', routes);
     expressApp.use('/users', users);
+    expressApp.use('/api/articles', articles);
 
     // catch 404 and forward to error handler
     expressApp.use(function (req, res, next) {
@@ -68,8 +72,8 @@ var addRoutes = function (expressApp) {
     });
 };
 
-var viewsDirectory = getProperty('frontend.viewsDirectory', '../frontend/views');
-var staticDirectory = getProperty('frontend.staticDirectory', '../frontend/public');
+var viewsDirectory = config.getProperty('frontend.viewsDirectory', '../frontend/views');
+var staticDirectory = config.getProperty('frontend.staticDirectory', '../frontend/public');
 
 if (typeof viewsDirectory !== 'string') {
     console.warn('The views directory is not correct');
@@ -82,10 +86,11 @@ if (typeof staticDirectory !== 'string') {
 }
 
 try {
+    PersistenceLayer.init(config);
     setViewEngine(app);
     addMiddlewares(app);
     addRoutes(app);
-}catch(e) {
+} catch (e) {
     console.error(e);
 }
 
